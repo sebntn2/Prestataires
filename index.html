@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -28,25 +28,40 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             padding: 40px;
-            text-align: center;
             color: white;
         }
 
+        .header-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
         .logo {
-            width: 200px;
-            height: 80px;
+            width: 150px;
+            height: 150px;
             background: white;
-            margin: 0 auto 20px;
-            border-radius: 10px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+            object-fit: contain;
+            padding: 10px;
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        .header-text h1 {
+            font-size: 36px;
+            margin: 0 0 5px 0;
         }
 
         h1 {
@@ -94,8 +109,8 @@
 
         input:focus, select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
         }
 
         .btn-reset {
@@ -114,6 +129,37 @@
             background: #c82333;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-maps {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #4285F4 0%, #1f6ec6 100%);
+            color: white;
+            border: 1px solid #1f6ec6;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-left: 10px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+
+        .btn-maps svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .btn-maps:hover {
+            background: linear-gradient(135deg, #1f6ec6 0%, #1557b0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(66, 133, 244, 0.5);
         }
 
         .results-info {
@@ -135,7 +181,7 @@
         }
 
         thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
         }
 
@@ -176,8 +222,17 @@
                 padding: 20px;
             }
 
-            h1 {
-                font-size: 24px;
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header-text {
+                text-align: center;
+            }
+
+            .header-text h1 {
+                font-size: 28px;
             }
 
             .filters, .table-container {
@@ -195,14 +250,26 @@
             th, td {
                 padding: 10px;
             }
+
+            .btn-maps {
+                display: block;
+                margin: 8px 0 0 0;
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Annuaire des Prestataires de Soins</h1>
-            <p class="subtitle">Trouvez rapidement votre prestataire de santé</p>
+            <div class="header-top">
+                <img src="logo.png" alt="Company Logo" class="logo" id="logoPlaceholder">
+                <div class="header-text">
+                    <h1>Annuaire des Prestataires de Soins</h1>
+                    <p class="subtitle">Trouvez rapidement votre prestataire de santé</p>
+                </div>
+            </div>
         </div>
 
         <div class="filters">
@@ -241,6 +308,7 @@
                         <th>Nom Prénom</th>
                         <th>Région</th>
                         <th>Adresse</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -388,11 +456,13 @@
 
                 filteredData.forEach(item => {
                     const row = document.createElement('tr');
+                    const mapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(item.address + ', Tunisia')}`;
                     row.innerHTML = `
                         <td>${item.type}</td>
                         <td>${item.name}</td>
                         <td>${item.region}</td>
                         <td>${item.address}</td>
+                        <td><a href="${mapsUrl}" target="_blank" class="btn-maps"><svg viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>Carte</a></td>
                     `;
                     tbody.appendChild(row);
                 });
